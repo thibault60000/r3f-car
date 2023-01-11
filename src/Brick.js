@@ -9,10 +9,11 @@ export default function Brick(props) {
   const [BricksRef] = useBox(() => ({
     type: "Static",
     args: [0.5, props.scale[1], 0.5],
+    userData: { id: "bricks" },
     ...props,
   }));
   return (
-    <group ref={BricksRef} userData={{ id: "bricks" }}>
+    <group ref={BricksRef}>
       <mesh
         scale={props.scale}
         castShadow

@@ -9,10 +9,11 @@ export default function Lamp(props) {
   const [BricksRef] = useBox(() => ({
     type: "Static",
     args: [0.5, 3, 0.5],
+    userData: { id: "lamp" },
     ...props,
   }));
   return (
-    <group ref={BricksRef} userData={{ id: "lamp" }}>
+    <group ref={BricksRef}>
       <mesh
         castShadow
         receiveShadow

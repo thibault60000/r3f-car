@@ -40,6 +40,7 @@ export default function Experience() {
         {/* Rocks */}
         <Rock position={[3, 0, -1]} scale={[1.2, 1.2, 1.2]} />
         <Rock
+          userData={{ id: "stones1" }}
           position={[-4, 0, -1.5]}
           scale={[1, 1, 1]}
           rotation={[0, Math.PI, 0]}

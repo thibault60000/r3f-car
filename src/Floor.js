@@ -6,6 +6,7 @@ export default function Floor(props) {
     type: "Static",
     material: "ground",
     friction: 1,
+    userData: { id: "ground" },
     ...props,
   }));
 

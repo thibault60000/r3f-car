@@ -15,7 +15,7 @@ const Car = forwardRef(
         mass,
         args,
         allowSleep: false,
-        onCollide: (e) => console.log("Colission", e.body.userData),
+        onCollide: (e) => console.log("Colission", e.body),
         ...props,
       }),
       ref

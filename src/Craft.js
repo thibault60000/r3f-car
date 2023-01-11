@@ -9,10 +9,11 @@ export default function Craft(props) {
   const [BricksRef] = useBox(() => ({
     mass: 2,
     args: [0.7, props.scale[1] * 1, 0.7],
+    userData: { id: "craft" },
     ...props,
   }));
   return (
-    <group ref={BricksRef} userData={{ id: "craft" }}>
+    <group ref={BricksRef}>
       <group rotation={[Math.PI / 2, 0, 0]}>
         <mesh
           castShadow

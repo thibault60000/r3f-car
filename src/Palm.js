@@ -8,10 +8,11 @@ export default function Palm(props) {
   const [Three1Ref] = useBox(() => ({
     type: "Static",
     args: [0.5, 2 * props.scale[1], 0.5],
+    userData: { id: "palm1" },
     ...props,
   }));
   return (
-    <group ref={Three1Ref} userData={{ id: "three1" }}>
+    <group ref={Three1Ref}>
       <group position={[0.8, 0, -0.8]} scale={props.scale}>
         <mesh
           castShadow

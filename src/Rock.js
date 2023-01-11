@@ -9,10 +9,11 @@ export default function Rock(props) {
   const [Rock1Ref] = useBox(() => ({
     type: "Static",
     args: [0.8, 2 * props.scale[1], 0.8],
+    userData: { id: "stones1" },
     ...props,
   }));
   return (
-    <group ref={Rock1Ref} userData={{ id: "stones1" }}>
+    <group ref={Rock1Ref}>
       <group position={[0.8, 0, -0.2]} scale={props.scale}>
         <mesh
           castShadow
