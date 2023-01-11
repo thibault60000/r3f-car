@@ -36,7 +36,7 @@ const mapKeys = [
 
 root.render(
   <KeyboardControls map={mapKeys}>
-    <Canvas dpr={[1, 2]} shadows camera={{ fov: 45, near: 0.1, far: 200 }}>
+    <Canvas dpr={[1, 2]} shadows flat camera={{ fov: 45, near: 0.1, far: 200 }}>
       <Experience />
     </Canvas>
     <Interface />

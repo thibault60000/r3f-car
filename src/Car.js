@@ -2,9 +2,6 @@ import { forwardRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useBox } from "@react-three/cannon";
 
-import { ColorManagement } from "three";
-ColorManagement.legacyMode = false;
-
 useGLTF.preload("./models/misc/zombie_cars.glb");
 
 const Car = forwardRef(

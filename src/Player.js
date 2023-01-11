@@ -15,7 +15,7 @@ export default function Player({
   back = -0.6,
   steer = 0.85,
   force = 2500,
-  mass = 500,
+  mass = 800,
   maxBrake = 1e2,
   ...props
 }) {
@@ -124,15 +124,15 @@ export default function Player({
 
   return (
     <group ref={vehicle} position={[0, 0, 0]}>
-      <Debug scale={3}>
-        <Car
-          mass={mass}
-          ref={chassis}
-          rotation={props.rotation}
-          position={props.position}
-          angularVelocity={props.angularVelocity}
-        />
-      </Debug>
+      {/* <Debug scale={3}> */}
+      <Car
+        mass={mass}
+        ref={chassis}
+        rotation={props.rotation}
+        position={props.position}
+        angularVelocity={props.angularVelocity}
+      />
+      {/* </Debug> */}
 
       <Wheel ref={wheel1} radius={radius} leftSide />
       <Wheel ref={wheel2} radius={radius} />

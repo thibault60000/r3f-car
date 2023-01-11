@@ -1,22 +1,18 @@
 import { useGLTF } from "@react-three/drei";
 import { useBox } from "@react-three/cannon";
-
-import { ColorManagement } from "three";
-ColorManagement.legacyMode = false;
-
 useGLTF.preload("./models/threes/three1.gltf");
 
-export default function ForestThree(props) {
+export default function Palm(props) {
   const { nodes, materials } = useGLTF("./models/threes/three1.gltf");
 
   const [Three1Ref] = useBox(() => ({
     type: "Static",
-    args: [0.5, 2.5, 0.5],
+    args: [0.5, 2 * props.scale[1], 0.5],
     ...props,
   }));
   return (
     <group ref={Three1Ref} userData={{ id: "three1" }}>
-      <group position={[0.8, 0, -0.8]}>
+      <group position={[0.8, 0, -0.8]} scale={props.scale}>
         <mesh
           castShadow
           receiveShadow
