@@ -5,10 +5,10 @@ import { useBox } from "@react-three/cannon";
 import { ColorManagement } from "three";
 ColorManagement.legacyMode = false;
 
-useGLTF.preload("./models/misc/car.gltf");
+useGLTF.preload("./models/misc/zombie_cars.glb");
 
 const Car = forwardRef(
-  ({ args = [0.6, 0.6, 1.6], mass = 450, ...props }, ref) => {
+  ({ args = [0.6, 0.6, 1.6], mass = 500, ...props }, ref) => {
     const { nodes, materials } = useGLTF("./models/misc/zombie_cars.glb");
 
     // api : https://github.com/pmndrs/use-cannon/tree/master/packages/react-three-cannon#returned-api

@@ -1,4 +1,5 @@
 import { usePlane } from "@react-three/cannon";
+import { GradientTexture } from "@react-three/drei";
 
 export default function Floor(props) {
   const [ref] = usePlane(() => ({
@@ -16,7 +17,13 @@ export default function Floor(props) {
       userData={{ id: "floor" }}
     >
       <planeGeometry args={[50, 50]} />
-      <meshStandardMaterial color='orange' />
+      <meshStandardMaterial>
+        <GradientTexture
+          stops={[0, 0.8, 1]}
+          colors={["#F4661B", "#FFA500", "#FEA347", "#E67E30"]}
+          size={100}
+        />
+      </meshStandardMaterial>
     </mesh>
   );
 }

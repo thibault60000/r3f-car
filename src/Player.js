@@ -13,9 +13,10 @@ export default function Player({
   height = -0.08,
   front = 0.7,
   back = -0.6,
-  steer = 0.75,
-  force = 2000,
-  maxBrake = 1e5,
+  steer = 0.85,
+  force = 2500,
+  mass = 500,
+  maxBrake = 1e2,
   ...props
 }) {
   const chassis = useRef();
@@ -77,31 +78,23 @@ export default function Player({
 
   useFrame(({ camera }, delta) => {
     const { forward, backward, left, right, restarter } = getKeys();
-    // Arrière gauche
-    api.applyEngineForce(
-      forward || backward ? force * (forward && !backward ? -1 : 1) : 0,
-      2
-    );
-    // Arrière droite
-    api.applyEngineForce(
-      forward || backward ? force * (forward && !backward ? -1 : 1) : 0,
-      2
-    );
+    const brake = !forward && !backward;
 
-    // Avant gauche
-    api.setSteeringValue(
-      left || right ? steer * (left && !right ? 1 : -1) : 0,
-      0
-    );
-    // Avant droite
-    api.setSteeringValue(
-      left || right ? steer * (left && !right ? 1 : -1) : 0,
-      1
-    );
+    for (let e = 2; e < 4; e++)
+      api.applyEngineForce(
+        forward || backward ? force * (forward && !backward ? -1 : 1) : 0,
+        2
+      );
+    for (let s = 0; s < 2; s++)
+      api.setSteeringValue(
+        left || right ? steer * (left && !right ? 1 : -1) : 0,
+        s
+      );
+    for (let b = 2; b < 4; b++) api.setBrake(brake ? maxBrake : 0, b);
 
     // Frein moteur
-    api.setBrake(!forward && !backward ? maxBrake : 0, 2);
-    api.setBrake(!forward && !backward ? maxBrake : 0, 3);
+    api.setBrake(brake ? maxBrake : 0, 2);
+    api.setBrake(brake ? maxBrake : 0, 3);
 
     // Restart Player position
     if (restarter) {
@@ -131,12 +124,16 @@ export default function Player({
 
   return (
     <group ref={vehicle} position={[0, 0, 0]}>
-      <Car
-        ref={chassis}
-        rotation={props.rotation}
-        position={props.position}
-        angularVelocity={props.angularVelocity}
-      />
+      <Debug scale={3}>
+        <Car
+          mass={mass}
+          ref={chassis}
+          rotation={props.rotation}
+          position={props.position}
+          angularVelocity={props.angularVelocity}
+        />
+      </Debug>
+
       <Wheel ref={wheel1} radius={radius} leftSide />
       <Wheel ref={wheel2} radius={radius} />
       <Wheel ref={wheel3} radius={radius} leftSide />
