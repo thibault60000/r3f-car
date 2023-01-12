@@ -6,10 +6,10 @@ export const CarConfig = {
   height: -0.08,
   front: 0.7,
   back: -0.6,
-  steer: 0.85,
-  force: 2500,
-  mass: 800,
-  maxBrake: 1e2,
+  // steer: 0.85,
+  // force: 2500,
+  // mass: 800,
+  // maxBrake: 1e2,
 };
 
 export const WheelConfig = {

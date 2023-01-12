@@ -17,7 +17,7 @@ export default function Floor(props) {
       rotation={[-Math.PI / 2, 0, 0]}
       userData={{ id: "floor" }}
     >
-      <planeGeometry args={[50, 50]} />
+      <planeGeometry args={[200, 200]} />
       <meshStandardMaterial>
         <GradientTexture
           stops={[0, 0.8, 1]}

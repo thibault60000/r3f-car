@@ -11,6 +11,9 @@ import Korrigan from "./scene/Korrigan.js";
 import KorriganTaning from "./scene/KorriganTaning.js";
 import Ramp from "./scene/Ramp.js";
 import { Float, Text } from "@react-three/drei";
+import Credits from "./scene/Credits.js";
+import Ball from "./scene/Ball.js";
+import { Debug } from "@react-three/cannon";
 
 export default function Scene() {
   const korriganRef = useRef();
@@ -32,6 +35,49 @@ export default function Scene() {
     <group>
       {/* Floor */}
       <Floor rotation={[-Math.PI / 2, 0, 0]} />
+      {/* Ball */}
+      <Ball position={[1, 0.2, 3]} />
+      {/* Credits */}
+      <Credits
+        text='@react-tree/fiber'
+        position={[3.5, 0.2, -5]}
+        rotation-x={-Math.PI / 2}
+      />
+      <Credits
+        text='@react-tree/drei'
+        position={[3.5, 0.2, -4]}
+        rotation-x={-Math.PI / 2}
+      />
+      <Credits
+        text='@react-tree/cannon'
+        position={[3.5, 0.2, -3]}
+        rotation-x={-Math.PI / 2}
+      />
+      <Credits
+        text='@react-tree/postprocessing'
+        position={[3.5, 0.2, -6]}
+        rotation-x={-Math.PI / 2}
+      />
+      <Credits
+        text='leva'
+        position={[3.5, 0.2, -7]}
+        rotation-x={-Math.PI / 2}
+      />
+      <Credits
+        text='zustand'
+        position={[3.5, 0.2, -8]}
+        rotation-x={-Math.PI / 2}
+      />
+      <Credits
+        text='market.pmnd.rs'
+        position={[3.5, 0.2, -9]}
+        rotation-x={-Math.PI / 2}
+      />
+      <Credits
+        text='raycast-vehicle example'
+        position={[3.5, 0.2, -10]}
+        rotation-x={-Math.PI / 2}
+      />
       {/* Korrigan */}
       {korrigan.isAlive && (
         <Korrigan
@@ -51,7 +97,7 @@ export default function Scene() {
       )}
       {/* Ramp */}
       <Ramp
-        rotation={[-Math.PI / 1.2, 0, 0]}
+        rotation={[Math.PI * 1.08, 0, 0]}
         position={[-7, -0.1, 1]}
         scale={[2, 0.3, 2]}
       />

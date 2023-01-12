@@ -29,9 +29,16 @@ const KorriganTaning = forwardRef(
 
     const { names, actions } = useAnimations(animations, KorriganTaningRef);
 
-    const { name } = useControls("Gobelin Femelle Animation", {
-      name: { options: names, value: "pose_femme" },
-    });
+    const { name } = useControls(
+      "Gobelin Femelle Animation",
+      {
+        name: { options: names, value: "pose_femme" },
+      },
+      {
+        collapsed: true,
+        color: "green",
+      }
+    );
 
     useEffect(() => {
       const action = actions[name];
@@ -52,6 +59,7 @@ const KorriganTaning = forwardRef(
           >
             <primitive object={nodes.root} />
             <skinnedMesh
+              castShadow
               name='Femme'
               geometry={nodes.Femme.geometry}
               material={materials["color_main.004"]}

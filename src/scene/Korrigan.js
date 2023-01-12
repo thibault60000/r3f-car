@@ -29,9 +29,16 @@ const Korrigan = forwardRef(({ setKorrigan, ...props }, KorriganRef) => {
 
   const { names, actions } = useAnimations(animations, KorriganRef);
 
-  const { name } = useControls("Gobelin Animation", {
-    name: { options: names, value: "pose_chapeau" }, // "pose_chapeau | course_chapeau"
-  });
+  const { name } = useControls(
+    "Gobelin Animation",
+    {
+      name: { options: names, value: "pose_chapeau" }, // "pose_chapeau | course_chapeau"
+    },
+    {
+      collapsed: true,
+      color: "green",
+    }
+  );
 
   useEffect(() => {
     const action = actions[name];
@@ -50,6 +57,7 @@ const Korrigan = forwardRef(({ setKorrigan, ...props }, KorriganRef) => {
         <group name='Armature_chapeau' rotation={[0, 0.01, 0]}>
           <primitive object={nodes.root} />
           <skinnedMesh
+            castShadow
             name='Chapeau'
             geometry={nodes.Chapeau.geometry}
             material={materials["color_main.014"]}

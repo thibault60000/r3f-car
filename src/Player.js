@@ -17,12 +17,19 @@ export default function Player({ ...props }) {
   const wheel3 = useRef();
   const wheel4 = useRef();
 
-  const { force, mass, maxBrake, steer } = useControls("Car", {
-    force: 2500,
-    mass: 800,
-    maxBrake: 1e2,
-    steer: 0.85,
-  });
+  const { force, mass, maxBrake, steer } = useControls(
+    "Car",
+    {
+      force: { value: 2500, min: 1000, max: 4000 },
+      mass: { value: 450, min: 800, max: 1200 },
+      maxBrake: { value: 1e2, min: 1e1, max: 1e3 },
+      steer: { value: 0.85, min: 0.2, max: 0.95 },
+    },
+    {
+      collapsed: true,
+      color: "orange",
+    }
+  );
 
   const {
     suspensionStiffness,
@@ -31,14 +38,21 @@ export default function Player({ ...props }) {
     maxSuspensionTravel,
     dampingRelaxation,
     dampingCompression,
-  } = useControls("Wheel", {
-    suspensionStiffness: 30,
-    suspensionRestLength: 0.3,
-    maxSuspensionForce: 1e4,
-    maxSuspensionTravel: 0.3,
-    dampingRelaxation: 10,
-    dampingCompression: 4.4,
-  });
+  } = useControls(
+    "Wheel",
+    {
+      suspensionStiffness: { value: 30, min: 10, max: 50 },
+      suspensionRestLength: { value: 0.3, min: 0.1, max: 0.8 },
+      maxSuspensionForce: { value: 1e4, min: 1e2, max: 1e6 },
+      maxSuspensionTravel: { value: 0.3, min: 0.1, max: 0.9 },
+      dampingRelaxation: { value: 10, min: 5, max: 15 },
+      dampingCompression: { value: 4.4, min: 3.0, max: 5.5 },
+    },
+    {
+      collapsed: true,
+      color: "grey",
+    }
+  );
 
   const [smoothedCameraTarget] = useState(() => new Vector3());
   const [smoothedCameraPosition] = useState(() => new Vector3(6, 6, 6));
@@ -138,7 +152,7 @@ export default function Player({ ...props }) {
   });
 
   return (
-    <group ref={vehicle} position={[0, 0, 0]}>
+    <group ref={vehicle} position={[0, -0.15, 0]}>
       {/* <Debug scale={3}> */}
       <Car
         mass={mass}

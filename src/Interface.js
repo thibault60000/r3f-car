@@ -62,6 +62,15 @@ export default function Interface() {
             <p> Restart </p>
           </div>
         </div>
+        {/* Browser */}
+        <div className='blocs'>
+          <div className='raw'>
+            <div className='key'>F5</div>
+          </div>
+          <div className='raw'>
+            <p> Refresh </p>
+          </div>
+        </div>
       </div>
     </div>
   );
