@@ -7,20 +7,51 @@ import Wheel from "./Wheel";
 import Car from "./Car";
 import { Vector3 } from "three";
 import { CarConfig, WheelConfig } from "./Config";
+import { useControls } from "leva";
 
 export default function Player({ ...props }) {
-  const { radius, width, height, front, back, steer, force, mass, maxBrake } =
-    CarConfig;
+  const { radius, width, height, front, back } = CarConfig;
   const chassis = useRef();
   const wheel1 = useRef();
   const wheel2 = useRef();
   const wheel3 = useRef();
   const wheel4 = useRef();
 
+  const { force, mass, maxBrake, steer } = useControls("Car", {
+    force: 2500,
+    mass: 800,
+    maxBrake: 1e2,
+    steer: 0.85,
+  });
+
+  const {
+    suspensionStiffness,
+    suspensionRestLength,
+    maxSuspensionForce,
+    maxSuspensionTravel,
+    dampingRelaxation,
+    dampingCompression,
+  } = useControls("Wheel", {
+    suspensionStiffness: 30,
+    suspensionRestLength: 0.3,
+    maxSuspensionForce: 1e4,
+    maxSuspensionTravel: 0.3,
+    dampingRelaxation: 10,
+    dampingCompression: 4.4,
+  });
+
   const [smoothedCameraTarget] = useState(() => new Vector3());
   const [smoothedCameraPosition] = useState(() => new Vector3(6, 6, 6));
 
-  const wheelInfo = { ...WheelConfig };
+  const wheelInfo = {
+    ...WheelConfig,
+    suspensionStiffness,
+    suspensionRestLength,
+    maxSuspensionForce,
+    maxSuspensionTravel,
+    dampingRelaxation,
+    dampingCompression,
+  };
 
   const wheelInfo1 = {
     ...wheelInfo,
