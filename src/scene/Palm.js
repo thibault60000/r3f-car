@@ -1,5 +1,6 @@
 import { useGLTF } from "@react-three/drei";
 import { useBox } from "@react-three/cannon";
+
 useGLTF.preload("./models/threes/three1.gltf");
 
 export default function Palm(props) {
@@ -11,6 +12,7 @@ export default function Palm(props) {
     userData: { id: "palm1" },
     ...props,
   }));
+
   return (
     <group ref={Three1Ref}>
       <group position={[0.8, 0, -0.8]} scale={props.scale}>

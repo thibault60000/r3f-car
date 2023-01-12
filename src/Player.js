@@ -6,19 +6,11 @@ import { useRef, useState } from "react";
 import Wheel from "./Wheel";
 import Car from "./Car";
 import { Vector3 } from "three";
+import { CarConfig, WheelConfig } from "./Config";
 
-export default function Player({
-  radius = 0.35,
-  width = 0.85,
-  height = -0.08,
-  front = 0.7,
-  back = -0.6,
-  steer = 0.85,
-  force = 2500,
-  mass = 800,
-  maxBrake = 1e2,
-  ...props
-}) {
+export default function Player({ ...props }) {
+  const { radius, width, height, front, back, steer, force, mass, maxBrake } =
+    CarConfig;
   const chassis = useRef();
   const wheel1 = useRef();
   const wheel2 = useRef();
@@ -28,21 +20,7 @@ export default function Player({
   const [smoothedCameraTarget] = useState(() => new Vector3());
   const [smoothedCameraPosition] = useState(() => new Vector3(6, 6, 6));
 
-  const wheelInfo = {
-    radius,
-    directionLocal: [0, -1, 0],
-    suspensionStiffness: 30,
-    suspensionRestLength: 0.3,
-    maxSuspensionForce: 1e4,
-    maxSuspensionTravel: 0.3,
-    dampingRelaxation: 10,
-    dampingCompression: 4.4,
-    axleLocal: [-1, 0, 0],
-    chassisConnectionPointLocal: [1, 0, 1],
-    useCustomSlidingRotationalSpeed: true,
-    customSlidingRotationalSpeed: -30,
-    frictionSlip: 2,
-  };
+  const wheelInfo = { ...WheelConfig };
 
   const wheelInfo1 = {
     ...wheelInfo,
@@ -76,25 +54,25 @@ export default function Player({
 
   const [subscribeKeys, getKeys] = useKeyboardControls();
 
-  useFrame(({ camera }, delta) => {
+  const manageControls = (delta) => {
     const { forward, backward, left, right, restarter } = getKeys();
     const brake = !forward && !backward;
 
+    // Forward & Backward
     for (let e = 2; e < 4; e++)
       api.applyEngineForce(
         forward || backward ? force * (forward && !backward ? -1 : 1) : 0,
         2
       );
+    // Left & Right
     for (let s = 0; s < 2; s++)
       api.setSteeringValue(
         left || right ? steer * (left && !right ? 1 : -1) : 0,
         s
       );
-    for (let b = 2; b < 4; b++) api.setBrake(brake ? maxBrake : 0, b);
 
-    // Frein moteur
-    api.setBrake(brake ? maxBrake : 0, 2);
-    api.setBrake(brake ? maxBrake : 0, 3);
+    // Brake
+    for (let b = 2; b < 4; b++) api.setBrake(brake ? maxBrake : 0, b);
 
     // Restart Player position
     if (restarter) {
@@ -103,7 +81,9 @@ export default function Player({
       chassis.current.api.angularVelocity.set(0, 0.5, 0);
       chassis.current.api.rotation.set(0, -Math.PI / 4, 0);
     }
+  };
 
+  const manageCamera = (camera, delta) => {
     // Camera follow user
     chassis.current.api.position.subscribe((position) => {
       // Target
@@ -111,7 +91,6 @@ export default function Player({
       cameraTarget.copy(new Vector3(position[0], position[1], position[2]));
       smoothedCameraTarget.lerp(cameraTarget, 5 * delta);
       camera.lookAt(cameraTarget);
-
       // Position
       const cameraPosition = new Vector3();
       cameraPosition.copy(new Vector3(position[0], position[1], position[2]));
@@ -120,6 +99,11 @@ export default function Player({
       smoothedCameraPosition.lerp(cameraPosition, 5 * delta);
       camera.position.copy(smoothedCameraPosition);
     });
+  };
+
+  useFrame(({ camera }, delta) => {
+    manageControls(delta);
+    manageCamera(camera, delta);
   });
 
   return (

@@ -24,12 +24,12 @@ export default function Experience() {
           rotation={PLAYER_ROTATION}
           angularVelocity={PLAYER_ANGULAR_VELOCITY}
         />
-        {/* <Debug scale={2}> */}
+        {/* <Debug scale={1.3} color='red'> */}
         <Scene />
         {/* </Debug> */}
       </Physics>
       {/* <OrbitControls makeDefault /> */}
-      {/* <Perf position='top-left' /> */}
+      <Perf position='top-left' />
     </>
   );
 }

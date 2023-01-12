@@ -2,27 +2,26 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { useBox } from "@react-three/cannon";
 import { useControls } from "leva";
 import { forwardRef, useEffect } from "react";
+import { useFrame } from "@react-three/fiber";
 
 useGLTF.preload("./models/characters/korrigan.gltf");
 
-const Korrigan = forwardRef((props, KorriganRef) => {
+const Korrigan = forwardRef(({ setKorrigan, ...props }, KorriganRef) => {
   const { nodes, materials, animations } = useGLTF(
     "./models/characters/korrigan.gltf"
   );
 
-  /*
-   *  animations: [
-   *    { blendMode : 2500, duration:  0.875, name: "course_chapeau" }
-   *    { blendMode : 2500, duration: 14.625, name: "pose_chapeau" }
-   * ]
-   */
-
   const [, api] = useBox(
     () => ({
-      type: "Static",
+      type: "Kinematic",
       args: [0.2, props.scale[1], 0.2],
       userData: { id: "korrigan" },
-      onCollide: (e) => console.log("Korrian hit", e.body),
+      onCollide: (e) => {
+        console.log("Korrian hit", e.body.userData.id);
+        setKorrigan({
+          isAlive: false,
+        });
+      },
       ...props,
     }),
     KorriganRef
@@ -31,11 +30,10 @@ const Korrigan = forwardRef((props, KorriganRef) => {
   const { names, actions } = useAnimations(animations, KorriganRef);
 
   const { name } = useControls("Gobelin Animation", {
-    name: { options: names },
+    name: { options: names, value: "pose_chapeau" }, // "pose_chapeau | course_chapeau"
   });
 
   useEffect(() => {
-    console.log("Korrigan ref", KorriganRef.current);
     const action = actions[name];
     action.reset().fadeIn(0.5).play();
 
@@ -43,6 +41,8 @@ const Korrigan = forwardRef((props, KorriganRef) => {
       action.fadeOut(0.5);
     };
   }, [name]);
+
+  useFrame(() => {});
 
   return (
     <group ref={KorriganRef}>

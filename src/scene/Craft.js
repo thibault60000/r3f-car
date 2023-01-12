@@ -8,7 +8,7 @@ export default function Craft(props) {
 
   const [BricksRef] = useBox(() => ({
     mass: 2,
-    args: [0.7, props.scale[1] * 1, 0.7],
+    args: [0.8, props.scale[1] * 1, 0.8],
     userData: { id: "craft" },
     ...props,
   }));

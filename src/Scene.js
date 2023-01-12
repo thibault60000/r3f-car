@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef, useState } from "react";
 
 import Floor from "./scene/Floor.js";
 import Rock from "./scene/Rock.js";
@@ -8,16 +8,25 @@ import Lamp from "./scene/Lamp.js";
 import Craft from "./scene/Craft.js";
 import Grass from "./scene/Grass.js";
 import Korrigan from "./scene/Korrigan.js";
-
-const korrigan = {
-  isAlive: true,
-  isMoving: false,
-  position: [2, 0, 2],
-  scale: [1, 1, 1],
-};
+import KorriganTaning from "./scene/KorriganTaning.js";
+import Ramp from "./scene/Ramp.js";
+import { Float, Text } from "@react-three/drei";
 
 export default function Scene() {
   const korriganRef = useRef();
+  const KorriganTaningRef = useRef();
+
+  const [korrigan, setKorrigan] = useState({
+    isAlive: true,
+  });
+
+  const [korriganTaning, setKorriganTaning] = useState({
+    isAlive: true,
+  });
+
+  const spawnMeat = (rotation, position, scale) => {
+    // TODO : Spawn it at position, rotation, scale
+  };
 
   return (
     <group>
@@ -27,10 +36,25 @@ export default function Scene() {
       {korrigan.isAlive && (
         <Korrigan
           ref={korriganRef}
-          position={korrigan.position}
-          scale={korrigan.scale}
+          setKorrigan={setKorrigan}
+          position={[2, 0, 2]}
+          scale={[1, 1, 1]}
         />
       )}
+      {korriganTaning.isAlive && (
+        <KorriganTaning
+          ref={KorriganTaningRef}
+          setKorriganTaning={setKorriganTaning}
+          position={[-1, 0, -2]}
+          scale={[1, 1, 1]}
+        />
+      )}
+      {/* Ramp */}
+      <Ramp
+        rotation={[-Math.PI / 1.2, 0, 0]}
+        position={[-7, -0.1, 1]}
+        scale={[2, 0.3, 2]}
+      />
       {/* Palms */}
       <Palm position={[4, 0, 2]} scale={[1.2, 1.2, 1.2]} />
       <Palm position={[, 0, 5]} scale={[0.9, 0.9, 0.9]} />
@@ -105,6 +129,20 @@ export default function Scene() {
       <Craft position={[-4, 3, -6]} scale={[1, 1, 1]} />
       <Craft position={[-5, 3, -6]} scale={[1, 1, 1]} />
       <Craft position={[-4.5, 4, -6]} scale={[1, 1, 1]} />
+
+      <Float floatIntensity={0.2} rotationIntensity={0.2}>
+        <Text
+          font='/bebas-neue-v9-latin-regular.woff'
+          scale={0.8}
+          maxWidth={3.5}
+          lineHeight={0.75}
+          textAlign='right'
+          position={[-0.9, 2, -5]}
+        >
+          <meshBasicMaterial color='black' toneMapped={false} />
+          Destroy !
+        </Text>
+      </Float>
     </group>
   );
 }
