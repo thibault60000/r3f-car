@@ -13,11 +13,17 @@ import Ramp from "./scene/Ramp.js";
 import { Float, Text } from "@react-three/drei";
 import Credits from "./scene/Credits.js";
 import Ball from "./scene/Ball.js";
-import { Debug } from "@react-three/cannon";
+import { Debug, useBox } from "@react-three/cannon";
+
+import { useGLTF } from "@react-three/drei";
+
+useGLTF.preload("./models/misc/meat.gltf");
 
 export default function Scene() {
   const korriganRef = useRef();
   const KorriganTaningRef = useRef();
+
+  const model = useGLTF("./models/misc/meat.gltf");
 
   const [korrigan, setKorrigan] = useState({
     isAlive: true,
@@ -27,8 +33,20 @@ export default function Scene() {
     isAlive: true,
   });
 
+  // TODO
   const spawnMeat = (rotation, position, scale) => {
-    // TODO : Spawn it at position, rotation, scale
+    const [meatRef] = useBox(() => ({
+      mass: 1,
+      position: position,
+      rotation: rotation,
+      args: [scale[0] / 2, scale[1] / 4, scale[2] / 2],
+    }));
+
+    return (
+      <mesh ref={meatRef} rotation={rotation} position={position} scale={scale}>
+        <primitive object={model.scene} />
+      </mesh>
+    );
   };
 
   return (
@@ -78,6 +96,7 @@ export default function Scene() {
         position={[3.5, 0.2, -10]}
         rotation-x={-Math.PI / 2}
       />
+
       {/* Korrigan */}
       {korrigan.isAlive && (
         <Korrigan
@@ -87,6 +106,7 @@ export default function Scene() {
           scale={[1, 1, 1]}
         />
       )}
+
       {korriganTaning.isAlive && (
         <KorriganTaning
           ref={KorriganTaningRef}
